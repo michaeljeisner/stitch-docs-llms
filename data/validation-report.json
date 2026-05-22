@@ -1,0 +1,56 @@
+{
+  "generatedAt": "2026-05-22T09:08:02.398Z",
+  "discoveredPages": 34,
+  "extractedPages": 34,
+  "failures": [],
+  "checks": [
+    {
+      "name": "docs URL reachable",
+      "pass": true,
+      "detail": "https://stitch.withgoogle.com/docs"
+    },
+    {
+      "name": "iframe entered",
+      "pass": true,
+      "detail": "3 frames"
+    },
+    {
+      "name": "shadow DOM probed",
+      "pass": true,
+      "detail": "0 open shadow hosts found"
+    },
+    {
+      "name": "all discovered pages extracted",
+      "pass": true,
+      "detail": "34/34 pages, 0 failures"
+    },
+    {
+      "name": "llms.txt exists and is non-empty",
+      "pass": true,
+      "detail": "182400 characters"
+    },
+    {
+      "name": "each extracted page has source URL and heading",
+      "pass": true,
+      "detail": "0 missing sections"
+    },
+    {
+      "name": "obvious UI boilerplate excluded",
+      "pass": true,
+      "detail": "no obvious boilerplate hits"
+    },
+    {
+      "name": "code blocks survived transformation",
+      "pass": true,
+      "detail": "130 fenced blocks across 22 pages with code"
+    },
+    {
+      "name": "key docs links survived transformation",
+      "pass": true,
+      "detail": "106 docs links"
+    }
+  ],
+  "warnings": [
+    "Playwright probed for open shadow roots in the rendered docs frame, but the current runtime exposes the content in regular iframe DOM with no open shadow roots."
+  ]
+}

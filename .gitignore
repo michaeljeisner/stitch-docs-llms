@@ -1,0 +1,6 @@
+.agents/
+.claude/
+.playwright/
+.playwright-cli/
+stitch-docs-initial.yml
+data/stitch-docs.encoded.json
