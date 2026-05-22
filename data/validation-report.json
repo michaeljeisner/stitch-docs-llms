@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T09:16:44.145Z",
+  "generatedAt": "2026-05-22T09:26:05.729Z",
   "discoveredPages": 34,
   "extractedPages": 34,
   "failures": [],
@@ -27,7 +27,22 @@
     {
       "name": "llms.txt exists and points to llms-full.txt",
       "pass": true,
-      "detail": "3297 characters"
+      "detail": "7393 characters"
+    },
+    {
+      "name": "llms.txt has required H1 first",
+      "pass": true,
+      "detail": "1 H1 headings"
+    },
+    {
+      "name": "llms.txt has blockquote summary after H1",
+      "pass": true,
+      "detail": "> A generated LLM-friendly index for Google Stitch documentation, including a co"
+    },
+    {
+      "name": "llms.txt H2 sections are valid file lists",
+      "pass": true,
+      "detail": "3 H2 sections"
     },
     {
       "name": "llms-full.txt exists and is non-empty",

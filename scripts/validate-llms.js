@@ -26,6 +26,28 @@ if (openShadowHostCount === 0) {
 
 add('all discovered pages extracted', data.discoveredPages.length > 0 && data.pages.length === data.discoveredPages.length && data.failures.length === 0, `${data.pages.length}/${data.discoveredPages.length} pages, ${data.failures.length} failures`);
 add('llms.txt exists and points to llms-full.txt', llms.length > 1000 && llms.includes('llms-full.txt'), `${llms.length} characters`);
+
+const llmsLines = llms.split(/\r?\n/);
+const nonEmptyLines = llmsLines.filter(line => line.trim());
+const h1Count = llmsLines.filter(line => line.startsWith('# ') && !line.startsWith('## ')).length;
+const h2Lines = llmsLines.filter(line => line.startsWith('## '));
+const firstNonEmpty = nonEmptyLines[0] || '';
+const secondNonEmpty = nonEmptyLines[1] || '';
+add('llms.txt has required H1 first', h1Count === 1 && firstNonEmpty === '# Stitch Docs LLMS', `${h1Count} H1 headings`);
+add('llms.txt has blockquote summary after H1', secondNonEmpty.startsWith('> '), secondNonEmpty.slice(0, 80));
+
+let h2FileListsValid = h2Lines.length > 0;
+for (let index = 0; index < llmsLines.length; index += 1) {
+  if (!llmsLines[index].startsWith('## ')) continue;
+  const sectionLines = [];
+  for (let cursor = index + 1; cursor < llmsLines.length && !llmsLines[cursor].startsWith('## '); cursor += 1) {
+    if (llmsLines[cursor].trim()) sectionLines.push(llmsLines[cursor]);
+  }
+  const listLines = sectionLines.filter(line => line.startsWith('- '));
+  h2FileListsValid = h2FileListsValid && listLines.length > 0 && sectionLines.every(line => line.startsWith('- ')) && listLines.every(line => /^- \[[^\]]+\]\([^)]+\)(: .+)?$/.test(line));
+}
+add('llms.txt H2 sections are valid file lists', h2FileListsValid, `${h2Lines.length} H2 sections`);
+
 add('llms-full.txt exists and is non-empty', llmsFull.length > 1000, `${llmsFull.length} characters`);
 
 const missingSections = data.pages.filter(page => !llmsFull.includes(`Source: ${page.url}`) || !llmsFull.includes(`## ${page.heading}`));

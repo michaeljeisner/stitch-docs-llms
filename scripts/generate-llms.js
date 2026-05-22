@@ -6,6 +6,7 @@ const fullOutputPath = path.join(__dirname, '..', 'llms-full.txt');
 const indexOutputPath = path.join(__dirname, '..', 'llms.txt');
 
 const data = JSON.parse(fs.readFileSync(inputPath, 'utf8').replace(/^\uFEFF/, ''));
+const pagesBaseUrl = 'https://michaeljeisner.github.io/stitch-docs-llms';
 
 const normalizeMarkdownLinks = text =>
   String(text || '')
@@ -118,26 +119,27 @@ const fullLines = [
 const indexLines = [
   '# Stitch Docs LLMS',
   '',
-  '> Up-to-date generated Markdown for Google Stitch documentation.',
+  '> A generated LLM-friendly index for Google Stitch documentation, including a complete rendered-docs Markdown corpus for agents, coding assistants, and Context7-style documentation ingestion.',
   '',
-  'This repository contains a complete rendered-docs export for Stitch, generated from https://stitch.withgoogle.com/docs.',
+  'This file follows the llms.txt proposal: a concise Markdown overview followed by curated file lists. The full documentation export is in `llms-full.txt`; it was generated from the accessible rendered Stitch docs at https://stitch.withgoogle.com/docs.',
   '',
-  '## Full Documentation',
+  'Use `llms-full.txt` when a model needs the complete Stitch docs in one context. Use the source documentation links when a browser-enabled agent should verify the current live page.',
   '',
-  '- [llms-full.txt](./llms-full.txt): complete extracted Stitch documentation with source URLs, headings, links, tables, ordered steps, and code blocks.',
-  '- [validation report](./data/validation-report.json): extraction coverage and quality checks.',
-  '- [source docs](https://stitch.withgoogle.com/docs): original Stitch documentation.',
+  '## Docs',
   '',
-  '## Coverage',
+  `- [Complete Stitch docs corpus](${pagesBaseUrl}/llms-full.txt): Full rendered-docs Markdown export with source URLs, headings, links, tables, ordered steps, and code blocks from ${data.pages.length} discovered Stitch documentation pages.`,
+  `- [Extraction progress log](${pagesBaseUrl}/PROGRESS.md): Human-readable summary of the extraction method, coverage, validation results, and known runtime note about iframe and shadow-root probing.`,
   '',
-  `- Discovered pages: ${data.discoveredPages.length}`,
-  `- Extracted pages: ${data.pages.length}`,
-  `- Failed pages: ${data.failures.length}`,
-  `- Code blocks: ${data.pages.reduce((total, page) => total + page.codeBlockCount, 0)}`,
+  '## Source Documentation',
   '',
-  '## Page Sources',
+  ...data.pages.map(page => `- [${page.heading || page.navText || page.url}](${page.url}): Original Stitch documentation page used as source for the generated corpus.`),
   '',
-  ...data.pages.map(page => `- ${page.heading || page.navText || page.url}: ${page.url}`),
+  '## Optional',
+  '',
+  `- [Structured extraction JSON](${pagesBaseUrl}/data/stitch-docs.extracted.json): Machine-readable extracted page blocks, links, code block counts, frame metadata, and source URLs used to generate the Markdown corpus.`,
+  `- [Validation report](${pagesBaseUrl}/data/validation-report.json): Machine-readable checklist confirming docs reachability, iframe traversal, page coverage, source headings, boilerplate exclusion, and code block preservation.`,
+  `- [Extraction scripts](${pagesBaseUrl}/scripts/extract-stitch-docs.playwright.js): Playwright extraction function for refreshing the rendered docs crawl.`,
+  `- [Markdown generator](${pagesBaseUrl}/scripts/generate-llms.js): Node.js script that regenerates both \`llms.txt\` and \`llms-full.txt\` from structured extraction data.`,
   '',
 ];
 
