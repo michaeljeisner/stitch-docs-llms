@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const inputPath = path.join(__dirname, '..', 'data', 'stitch-docs.extracted.json');
-const outputPath = path.join(__dirname, '..', 'llms.txt');
+const fullOutputPath = path.join(__dirname, '..', 'llms-full.txt');
+const indexOutputPath = path.join(__dirname, '..', 'llms.txt');
 
 const data = JSON.parse(fs.readFileSync(inputPath, 'utf8').replace(/^\uFEFF/, ''));
 
@@ -98,7 +99,7 @@ const renderPage = page => {
   return lines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
 };
 
-const lines = [
+const fullLines = [
   '# Stitch Documentation',
   '',
   `Source collection: ${data.startUrl}`,
@@ -114,5 +115,33 @@ const lines = [
   '',
 ];
 
-fs.writeFileSync(outputPath, `${lines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n`, 'utf8');
-console.log(`Wrote ${outputPath}`);
+const indexLines = [
+  '# Stitch Docs LLMS',
+  '',
+  '> Up-to-date generated Markdown for Google Stitch documentation.',
+  '',
+  'This repository contains a complete rendered-docs export for Stitch, generated from https://stitch.withgoogle.com/docs.',
+  '',
+  '## Full Documentation',
+  '',
+  '- [llms-full.txt](./llms-full.txt): complete extracted Stitch documentation with source URLs, headings, links, tables, ordered steps, and code blocks.',
+  '- [validation report](./data/validation-report.json): extraction coverage and quality checks.',
+  '- [source docs](https://stitch.withgoogle.com/docs): original Stitch documentation.',
+  '',
+  '## Coverage',
+  '',
+  `- Discovered pages: ${data.discoveredPages.length}`,
+  `- Extracted pages: ${data.pages.length}`,
+  `- Failed pages: ${data.failures.length}`,
+  `- Code blocks: ${data.pages.reduce((total, page) => total + page.codeBlockCount, 0)}`,
+  '',
+  '## Page Sources',
+  '',
+  ...data.pages.map(page => `- ${page.heading || page.navText || page.url}: ${page.url}`),
+  '',
+];
+
+fs.writeFileSync(fullOutputPath, `${fullLines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n`, 'utf8');
+fs.writeFileSync(indexOutputPath, `${indexLines.join('\n').replace(/\n{3,}/g, '\n\n').trim()}\n`, 'utf8');
+console.log(`Wrote ${indexOutputPath}`);
+console.log(`Wrote ${fullOutputPath}`);

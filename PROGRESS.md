@@ -1,4 +1,4 @@
-# Stitch docs llms.txt progress log
+# Stitch docs llms-full.txt progress log
 
 Date: 2026-05-22
 
@@ -8,7 +8,7 @@ Date: 2026-05-22
 - Discovered pages: 34
 - Extracted pages: 34
 - Failed pages: 0
-- Output artifact: `llms.txt`
+- Output artifacts: `llms.txt` entrypoint and `llms-full.txt` full documentation corpus
 
 The extractor entered the public Stitch docs page, followed the nested iframe chain into the rendered documentation frame, discovered all internal docs links exposed by the rendered sidebar and page content, visited every discovered route, and converted the rendered `main` content into Markdown.
 
@@ -26,7 +26,8 @@ Validation results:
 - PASS iframe entered: 3 frames
 - PASS shadow DOM probed: 0 open shadow hosts found
 - PASS all discovered pages extracted: 34/34 pages, 0 failures
-- PASS `llms.txt` exists and is non-empty: 182400 characters
+- PASS `llms.txt` exists and points to `llms-full.txt`
+- PASS `llms-full.txt` exists and is non-empty
 - PASS each extracted page has source URL and heading
 - PASS obvious UI boilerplate excluded
 - PASS code blocks survived transformation: 130 fenced blocks across 22 pages with code
@@ -36,7 +37,8 @@ Note: Playwright probed for open shadow roots in the rendered docs frame and acr
 
 ## Generated files
 
-- `llms.txt`: final Markdown llms artifact
+- `llms.txt`: concise LLM/docs-ingestion entrypoint
+- `llms-full.txt`: final full Markdown documentation artifact
 - `scripts/extract-stitch-docs.playwright.js`: Playwright extraction script
 - `scripts/decode-extraction.js`: UTF-8-safe extraction decoder
 - `scripts/generate-llms.js`: Markdown generator

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-22T09:08:02.398Z",
+  "generatedAt": "2026-05-22T09:16:44.145Z",
   "discoveredPages": 34,
   "extractedPages": 34,
   "failures": [],
@@ -25,12 +25,17 @@
       "detail": "34/34 pages, 0 failures"
     },
     {
-      "name": "llms.txt exists and is non-empty",
+      "name": "llms.txt exists and points to llms-full.txt",
+      "pass": true,
+      "detail": "3297 characters"
+    },
+    {
+      "name": "llms-full.txt exists and is non-empty",
       "pass": true,
       "detail": "182400 characters"
     },
     {
-      "name": "each extracted page has source URL and heading",
+      "name": "each extracted page has source URL and heading in llms-full.txt",
       "pass": true,
       "detail": "0 missing sections"
     },
